@@ -3,9 +3,8 @@ node_js:
 - node
 deploy:
   provider: npm
-  email: devel@keboola.com
-  api_key:
-    secure: "IOBGHgWbzoxr+XD4kVw3QWAKrW4kyNA6j4SEScHuujUocjfr2lQoFDoSMR9BOvgq00yvIsH5Yn0qaPUWljf4CpZe4XO+fGqxAtzWkuoccuA0ValdCX1mbiWnfekmLGl2t/otEFnSFYQFz81uD2fIAIAvj1gV6+SeSl0srzOVZdsSzgMLzfyAAEa75gVZw7KpM+sNe3+48jZBUW9mxkRZlFBiMBZCAixg0oae6aG2HKVD9IJooyRg2ZForJ69EDpwhicIHM9+YeJjs/l0YH5WcDPxFSU0Dzy3hr0bOz6BgScv6rZhMndtOoAknPjZcLFOViRau+/XFAa5udwXd1BD9jdpsyhJWbU/VLVStl0v96Wz4c8bcZ3nkJAt1bhkJB0PjPmF6yFrjZ6H1sk8q24LnxnIwpjv66jBtVR4eX9IA+GW/u193lm+22WEt3HwLKHh3XA2gmLRpEW0oNjHqAvjXvNTNXaNwL2ILHkmcWpeM9tWIoa+odHyAP11/r3YtbaHvlOltBQA3xnh68rYvaOmVPn5XAlTTGsm97hF/ueUY9bG9EXhy8mkFbtCqGow01d3UiHNcA+dQXxjZtd+cut8N0O8JJD3F/2i6loHpMt8pap+mZX9YzODt9ULKKyOzPoFLfDsS+YJcZq+kBGS3/QUq5ZUfNXsvGvW2JD4J/l9hLI="
+  email: $NPM_EMAIL
+  api_key: $NPM_TOKEN
   on:
     tags: true
     repo: keboola/serverless-request-handler
