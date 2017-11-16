@@ -135,7 +135,7 @@ class RequestHandler {
   }
 
   static response(err, res, event, context, cb, code = 200) {
-    if (!(err instanceof UserError)) {
+    if (err && !(err instanceof UserError)) {
       RequestHandler.logRequest(context, err, event);
       throw err;
     }
