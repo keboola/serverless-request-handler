@@ -62,6 +62,7 @@ class RequestHandler {
       if ((err instanceof UserError)) {
         log.error = err.message;
       } else {
+        log.statusCode = 500;
         log.error = {
           name: err.name,
           message: err.message,
