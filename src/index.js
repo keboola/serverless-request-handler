@@ -59,7 +59,23 @@ class RequestHandler {
       log.statusCode = res.statusCode;
     }
     if (err) {
-      log.error = err.message;
+      if ((err instanceof UserError)) {
+        log.error = err.message;
+      } else {
+        log.error = {
+          name: err.name,
+          message: err.message,
+        };
+        if ('stack' in err) {
+          log.error.stack = err.stack.split('\n');
+        }
+        if ('fileName' in err) {
+          log.error.fileName = err.fileName;
+        }
+        if ('lineNumber' in err) {
+          log.error.lineNumber = err.lineNumber;
+        }
+      }
     }
 
     console.log(JSON.stringify(log));
@@ -73,6 +89,7 @@ class RequestHandler {
       fn();
     } catch (err) {
       if (!(err instanceof UserError)) {
+        RequestHandler.logRequest(context, err, event);
         throw err;
       }
       const res = RequestHandler.getResponseBody(err, null, context);
@@ -97,9 +114,6 @@ class RequestHandler {
       body: res,
     };
     if (err) {
-      if (!(err instanceof UserError)) {
-        throw err;
-      }
       response.statusCode = _.isNumber(err.code) ? err.code : 400;
       response.body = {
         errorMessage: err.message,
@@ -116,15 +130,15 @@ class RequestHandler {
    */
   static responsePromise(promise, event, context, callback, code = 200) {
     return promise
-      .then(res =>
-        RequestHandler.response(null, res, event, context, callback, code)
-      )
-      .catch(err =>
-        RequestHandler.response(err, null, event, context, callback)
-      );
+      .then(res => RequestHandler.response(null, res, event, context, callback, code))
+      .catch(err => RequestHandler.response(err, null, event, context, callback));
   }
 
   static response(err, res, event, context, cb, code = 200) {
+    if (!(err instanceof UserError)) {
+      RequestHandler.logRequest(context, err, event);
+      throw err;
+    }
     const response = RequestHandler.getResponseBody(err, res, context, code);
 
     RequestHandler.logRequest(context, err, event, response);
