@@ -49,12 +49,14 @@ class RequestHandler {
     const log = {
       event: {
         requestId: context.awsRequestId,
-        apiRequestId: event.requestContext.requestId,
         function: context.functionName,
         httpMethod: event.httpMethod,
         path: event.path,
       },
     };
+    if ('requestContext' in context) {
+      log.event.apiRequestId = event.requestContext.requestId;
+    }
     if (res && 'statusCode' in res) {
       log.statusCode = res.statusCode;
     }
