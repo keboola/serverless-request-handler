@@ -107,7 +107,7 @@ class RequestHandler {
   /**
    * Formats response for API
    */
-  static getResponseBody(err, res, context, code = 200) {
+  static getResponseBody(err, res, context, code = 200, headers = {}) {
     const response = {
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -116,6 +116,9 @@ class RequestHandler {
       statusCode: code,
       body: res,
     };
+    if (_.size(headers)) {
+      response.headers = _.assign(response.headers, headers);
+    }
     if (err) {
       response.statusCode = _.isNumber(err.code) ? err.code : 400;
       response.body = {
@@ -131,18 +134,18 @@ class RequestHandler {
   /**
    * Returns result of promise chain to API and handles rejection
    */
-  static responsePromise(promise, event, context, callback, code = 200) {
+  static responsePromise(promise, event, context, callback, code = 200, headers = {}) {
     return promise
-      .then(res => RequestHandler.response(null, res, event, context, callback, code))
-      .catch(err => RequestHandler.response(err, null, event, context, callback));
+      .then(res => RequestHandler.response(null, res, event, context, callback, code, headers))
+      .catch(err => RequestHandler.response(err, null, event, context, callback, null, headers));
   }
 
-  static response(err, res, event, context, cb, code = 200) {
+  static response(err, res, event, context, cb, code = 200, headers = {}) {
     if (err && !(err instanceof UserError)) {
       RequestHandler.logRequest(context, err, event);
       throw err;
     }
-    const response = RequestHandler.getResponseBody(err, res, context, code);
+    const response = RequestHandler.getResponseBody(err, res, context, code, headers);
 
     RequestHandler.logRequest(context, err, event, response);
 
