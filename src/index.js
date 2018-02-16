@@ -54,10 +54,16 @@ class RequestHandler {
         path: event.path,
       },
     };
-    if ('requestContext' in context) {
+    if (_.has(event, 'requestContext')) {
       log.event.apiRequestId = event.requestContext.requestId;
+      if (_.has(event.requestContext, 'identity.sourceIp')) {
+        log.event.ipAddress = event.requestContext.identity.sourceIp;
+      }
+      if (_.has(event.requestContext, 'identity.userAgent')) {
+        log.event.userAgent = event.requestContext.identity.userAgent;
+      }
     }
-    if (res && 'statusCode' in res) {
+    if (res && _.has(res, 'statusCode')) {
       log.statusCode = res.statusCode;
     }
     if (err) {
