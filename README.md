@@ -5,6 +5,8 @@
 
 Wrapper for AWS Lambda functions with API Gateway creating unified response for error states. 
 
+By default the handler adds `'Access-Control-Allow-Origin': '*'` and `'Content-Type': 'application/json; charset=utf-8'` headers to the response.  
+
 
 ### Installation
 
@@ -21,6 +23,24 @@ module.exports.handler = (event, context, callback) => RequestHandler.handler(()
 ```
   - `RequestHandler.handler()` catches uncaught exceptions
   - `RequestHandler.responsePromise()` catches rejected promises and formats output for resolved promise chain
+
+You can also return status code and headers in the resolved promise:
+
+```js
+module.exports.handler = (event, context, callback) => RequestHandler.handler(() => {
+  const promise = new Promise((res) => {
+    // ...
+    res({
+      headers: { 'Access-Control-Allow-Headers': 'Token' },
+      body: {
+        message: 'Resource was created',
+      },
+      statusCode: 201,
+    });
+  });
+  return RequestHandler.responsePromise(promise, event, context, callback);
+}, event, context, callback);
+```
 
 ### Request logging
 

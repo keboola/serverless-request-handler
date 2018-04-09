@@ -113,17 +113,18 @@ class RequestHandler {
   /**
    * Formats response for API
    */
-  static getResponseBody(err, res, context, code = 200, headers = {}) {
-    const response = {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      statusCode: code,
-      body: res,
-    };
-    if (_.size(headers)) {
-      response.headers = _.assign(response.headers, headers);
+  static getResponseBody(err, res, context, statusCode = 200, headers = {}) {
+    let response;
+    if (_.has(res, 'headers') && _.has(res, 'body') && _.has(res, 'statusCode') && _.size(_.keys(res)) === 3) {
+      response = res;
+    } else {
+      response = { headers, body: res, statusCode };
+    }
+    if (!_.has(response.headers, 'Access-Control-Allow-Origin')) {
+      response.headers['Access-Control-Allow-Origin'] = '*';
+    }
+    if (!_.has(response.headers, 'Content-Type')) {
+      response.headers['Content-Type'] = 'application/json; charset=utf-8';
     }
     if (err) {
       response.statusCode = _.isNumber(err.code) ? err.code : 400;
