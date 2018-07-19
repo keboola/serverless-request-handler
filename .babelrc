@@ -1,0 +1,10 @@
+{
+  "presets": [
+    "node8",
+    "flow"
+  ],
+  "plugins": [
+    "transform-runtime",
+    "transform-flow-strip-types"
+  ]
+}

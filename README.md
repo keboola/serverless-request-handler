@@ -18,11 +18,11 @@ const { RequestHandler } = require('@keboola/serverless-request-handler');
 module.exports.handler = (event, context, callback) => RequestHandler.handler(() => {
   const promise = new Promise(res => res());
   const code = 204;
-  return RequestHandler.responsePromise(promise, event, context, callback, code);
+  return RequestHandler.response(promise, event, context, callback, code);
 }, event, context, callback);
 ```
   - `RequestHandler.handler()` catches uncaught exceptions
-  - `RequestHandler.responsePromise()` catches rejected promises and formats output for resolved promise chain
+  - `RequestHandler.response()` catches rejected promises and formats output for resolved promise chain
 
 You can also return status code and headers in the resolved promise:
 

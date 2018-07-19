@@ -1,8 +1,8 @@
 {
   "name": "@keboola/serverless-request-handler",
-  "version": "2.0.0",
-  "description": "Wrapper for lambda functions creating unified response for error states",
-  "main": "src/index.js",
+  "version": "3.0.0",
+  "description": "Wrapper for lambda functions creating unified response for API Gateway",
+  "main": "index.js",
   "repository": "https://github.com/keboola/serverless-request-handler",
   "author": "Jakub Matejka <jakub@keboola.com>",
   "license": "MIT",
@@ -14,5 +14,28 @@
   },
   "peerDependencies": {
     "serverless": "^1.24.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-node8": "^1.2.0",
+    "eslint": "^5.1.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-flowtype-errors": "^3.6.0",
+    "eslint-plugin-import": "^2.13.0",
+    "flow-bin": "^0.76.0",
+    "mocha": "^5.2.0",
+    "unexpected": "^10.38.0"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --exit --timeout 0 --require babel-register",
+    "lint": "./node_modules/eslint/bin/eslint.js src test",
+    "compile": "./node_modules/.bin/babel -o index.js src/"
   }
 }

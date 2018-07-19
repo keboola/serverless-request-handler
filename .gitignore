@@ -2,8 +2,4 @@
 node_modules
 yarn.lock
 
-# Serverless directories
-.serverless
-.webpack
-.env
-.docker
+index.js
