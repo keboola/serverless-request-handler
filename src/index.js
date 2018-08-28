@@ -67,7 +67,7 @@ class RequestHandler {
       log.statusCode = res.statusCode;
     }
     if (err) {
-      if ((err instanceof UserError)) {
+      if (RequestHandler.isUserError(err)) {
         log.error = err.message;
       } else {
         log.statusCode = 500;
@@ -97,7 +97,7 @@ class RequestHandler {
     try {
       fn();
     } catch (err) {
-      if (!(err instanceof UserError)) {
+      if (!RequestHandler.isUserError(err)) {
         RequestHandler.logRequest(context, err, event);
         throw err;
       }
@@ -148,7 +148,7 @@ class RequestHandler {
   }
 
   static response(err, res, event, context, cb, code = 200, headers = {}) {
-    if (err && !(err instanceof UserError)) {
+    if (err && !RequestHandler.isUserError(err)) {
       RequestHandler.logRequest(context, err, event);
       throw err;
     }
@@ -157,8 +157,12 @@ class RequestHandler {
     RequestHandler.logRequest(context, err, event, response);
 
     response.body = response.body ? JSON.stringify(response.body) : '';
-    cb((err instanceof UserError) ? null : err, response);
+    cb(RequestHandler.isUserError(err) ? null : err, response);
   }
+
+  static isUserError(err) {
+    return (err instanceof UserError) || (err.statusCode && err.statusCode < 500);
+
 }
 
 module.exports = { RequestHandler, UserError };
