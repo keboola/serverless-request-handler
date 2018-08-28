@@ -1,6 +1,6 @@
 {
   "name": "@keboola/serverless-request-handler",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Wrapper for lambda functions creating unified response for error states",
   "main": "src/index.js",
   "repository": "https://github.com/keboola/serverless-request-handler",
