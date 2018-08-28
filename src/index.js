@@ -162,7 +162,7 @@ class RequestHandler {
 
   static isUserError(err) {
     return (err instanceof UserError) || (err.statusCode && err.statusCode < 500);
-
+  }
 }
 
 module.exports = { RequestHandler, UserError };
