@@ -161,7 +161,7 @@ class RequestHandler {
   }
 
   static isUserError(err) {
-    return (err instanceof UserError) || (err && err.hasOwnProperty('statusCode') && err.statusCode < 500);
+    return (err instanceof UserError) || (err && _.isInteger(err.statusCode) && err.statusCode < 500);
   }
 }
 
