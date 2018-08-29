@@ -68,6 +68,8 @@ If you want to return a user error, use `UserError` class which is handled by th
 - `unauthorized(msg = 'Unauthorized')` - for 401 errors
 - `unprocessable(msg = 'Unprocessable')` - for 422 errors
 - `error(msg = 'Error', code = 400)` - for other errors
+
+The handler also supports [`http-errors`](https://www.npmjs.com/package/http-errors) and recognizes errors with status code < 500 as user errors automatically.
   
 #### Example:
 ```js
