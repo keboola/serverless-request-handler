@@ -110,6 +110,16 @@ class RequestHandler {
     }
   }
 
+  static getCodeFromError(err) {
+    if (_.isNumber(err.statusCode)) {
+      return err.statusCode;
+    }
+    if (_.isNumber(err.code)) {
+      return err.code;
+    }
+    return 500;
+  }
+
   /**
    * Formats response for API
    */
@@ -127,7 +137,7 @@ class RequestHandler {
       response.headers['Content-Type'] = 'application/json; charset=utf-8';
     }
     if (err) {
-      response.statusCode = _.isNumber(err.code) ? err.code : 400;
+      response.statusCode = RequestHandler.getCodeFromError(err);
       response.body = {
         errorMessage: err.message,
         errorType: err.type,
