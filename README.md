@@ -88,3 +88,7 @@ User then gets such response with status code 401:
 }
 ```
 And CloudWatch log of the request is enriched with `error` field containing the error message. 
+
+## License
+
+MIT licensed, see [LICENSE](./LICENSE) file.
